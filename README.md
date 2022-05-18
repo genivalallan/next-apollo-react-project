@@ -1,4 +1,4 @@
-## `Teste Full Stack`
+## `Minha Carteira (teste Full Stack)`
 
 O objetivo desse teste é avaliar a sua capacidade de construir um app Full Stack, usando as mesmas tecnologias que utilizamos no Fundamentei. Se você já é usuário do site, então provavelmente já conhece e usa o que o teste lhe propõe a desenvolver: a **Minha Carteira**—mas calma, não exatamente com todas as funcionalidades que temos lá 😌.
 
@@ -14,9 +14,9 @@ O objetivo é você reproduzir exatamente o seguinte app:
 - A quantidade inicial de ações será 1 para todos os ativos;
 - Apenas ativos do **Brasil** e **Estados Unidos** poderão ser adicionados;
 - Ao clicar "REMOVER", o determinado ativo deverá ser removido da carteira _imediatamente_;
-- O número de ações é um **_input_**, sempre inteiro, e deve estar entre 0 e 100. O valor poderá ser alterado a qualquer momento. Persistir as modificações após um **[Tab]**;
+- O número de ações é um **_input_**, sempre inteiro, e deve estar entre 0 e 100. O valor poderá ser alterado a qualquer momento. Persistir as modificações após o campo perder foco;
 - Observe as cores, elas variam de acordo com o país;
-- Todos os dados deverão ser persistidos no banco de dados. Ou seja, você deve implementar a API do zero.
+- Todos os dados deverão ser persistidos no banco de dados. Ou seja, você deve implementar as API necessárias para isso.
 - Não é necessário implementar qualquer forma de autenticação.
 
 > Esse repositório já contém a base para você desenvolver o app _(tanto a parte do Back-end quanto Front-end)_ e não perder muito tempo com bootstrapping, você pode modificar conforme achar melhor—é apenas uma base.
@@ -57,6 +57,6 @@ Abra uma _Pull Request_ nesse mesmo repositório. Seu código será avaliado ind
 ## Considerações finais 🚀
 
 - Todos os detalhes serão analisados, faça o seu melhor!
-- Você não deve levar mais do que 6 à 8 horas para concluir o projeto;
+- Você não deve levar mais do que 6 a 8 horas para concluir o projeto;
 - Busque a simplicidade com os devidos detalhes. Um extra é sempre bem-vindo;
 - Você precisará explicar o que fez, então, _be yourself_.
