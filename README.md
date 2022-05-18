@@ -1,8 +1,8 @@
 ## `Teste Full Stack`
 
-O objetivo desse teste é avaliar a sua capacidade de construir um app Full Stack, usando as mesmas tecnologias que utilizamos no Fundamentei. Se você já é usuário do site, então provavelmente já conhece e usa o que o teste lhe propõe a desenvolver: **Minha Carteira**—mas calma, não exatamente com todas as funcionalidades que temos lá 😌.
+O objetivo desse teste é avaliar a sua capacidade de construir um app Full Stack, usando as mesmas tecnologias que utilizamos no Fundamentei. Se você já é usuário do site, então provavelmente já conhece e usa o que o teste lhe propõe a desenvolver: a **Minha Carteira**—mas calma, não exatamente com todas as funcionalidades que temos lá 😌.
 
-## O que preciso fazer?
+## O que preciso fazer? 👨🏻‍🏫
 
 O objetivo é você reproduzir exatamente o seguinte app:
 
@@ -45,3 +45,14 @@ simplificar o processo:
 ```SH
 $ docker run -it --rm -p 27017:27017 mongo:5.0.8
 ```
+
+## E como faço para entregar meu código? 🤔
+
+Abra uma _Pull Request_ nesse mesmo repositório. Seu código será avaliado individualmente com as devidas considerações.
+
+## Considerações finais 🚀
+
+- Todos os detalhes serão analisados, faça o seu melhor!
+- Você não deve levar mais do que 6 à 8 horas para concluir o projeto;
+- Busque a simplicidade com os devidos detalhes. Um extra é sempre bem-vindo;
+- Você precisará explicar o que fez, então, _be yourself_.
