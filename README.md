@@ -15,7 +15,11 @@ O objetivo é você reproduzir exatamente o seguinte app:
 - Apenas ativos do **Brasil** e **Estados Unidos** poderão ser adicionados;
 - Ao clicar "REMOVER", o determinado ativo deverá ser removido da carteira _imediatamente_;
 - O número de ações é um **_input_**, sempre inteiro, e deve estar entre 0 e 100. O valor poderá ser alterado a qualquer momento. Persistir as modificações após um **[Tab]**;
-- Observe as cores, elas variam de acordo com o país.
+- Observe as cores, elas variam de acordo com o país;
+- Todos os dados deverão ser persistidos no banco de dados. Ou seja, você deve implementar a API do zero.
+- Não é necessário implementar qualquer forma de autenticação.
+
+> Esse repositório já contém a base para você desenvolver o app _(tanto a parte do Back-end quanto Front-end)_ e não perder muito tempo com bootstrapping, você pode modificar conforme achar melhor—é apenas uma base.
 
 #### E de onde vou tirar os dados?
 
