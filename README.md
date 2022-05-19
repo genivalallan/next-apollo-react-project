@@ -57,6 +57,5 @@ Abra uma _Pull Request_ nesse mesmo repositório. Seu código será avaliado ind
 ## Considerações finais 🚀
 
 - Todos os detalhes serão analisados, faça o seu melhor!
-- Você não deve levar mais do que 6 a 8 horas para concluir o projeto;
 - Busque a simplicidade com os devidos detalhes. Um extra é sempre bem-vindo;
 - Você precisará explicar o que fez, então, _be yourself_.
