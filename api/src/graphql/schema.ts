@@ -9,6 +9,8 @@ const typeDefs = gql`
     addAsset(newAsset: AssetInput!): Asset!
   }
 
+  scalar Date
+
   type Match {
     symbol: String!
     name: String!
