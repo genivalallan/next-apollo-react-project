@@ -4,9 +4,9 @@ const resolvers = {
   Query: {
     search: async (
       _: any,
-      { keywords }: SearchArgs,
+      { keyword }: SearchArgs,
       { dataSources: { alphaVantageAPI } }: DataSources
-    ) => alphaVantageAPI.search(keywords),
+    ) => alphaVantageAPI.search(keyword),
   },
 };
 

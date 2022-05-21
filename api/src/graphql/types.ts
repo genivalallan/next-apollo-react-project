@@ -9,5 +9,5 @@ export interface DataSources {
 }
 
 export interface SearchArgs {
-  keywords: string;
+  keyword: string;
 }
