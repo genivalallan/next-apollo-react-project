@@ -1,6 +1,6 @@
 import { ApolloError } from "apollo-server-core";
 import { GraphQLScalarType, Kind } from "graphql";
-import { DeleteResult, ObjectId, UpdateResult, WithId } from "mongodb";
+import { ObjectId, UpdateResult, WithId } from "mongodb";
 import { AssetPortfolioPosition } from "../providers/mongodb/assetPortfolioPosition";
 import { useCollections } from "../providers/mongodb/db";
 import {
@@ -142,7 +142,7 @@ const resolvers = {
           sanitizedAsset.region.includes("United States")
         )
       ) {
-        throw new ApolloError("Invalid region. " + sanitizedAsset.region, "BAD_INPUT");
+        throw new ApolloError("Invalid region.", "BAD_INPUT");
       }
 
       try {
