@@ -3,18 +3,22 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import { getMongoConnection } from "./providers/mongodb/db";
 import typeDefs from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
+import AlphaVantageAPI from "./providers/alphaVantage/alphaVantageRESTAPI";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+  dataSources: () => ({
+    alphaVantageAPI: new AlphaVantageAPI(),
+  }),
   context: async () => {
     const mongoClient = await getMongoConnection();
     return {
-      mongoClient
+      mongoClient,
     };
-  }
+  },
 });
 
 server.listen().then(({ url }) => {
