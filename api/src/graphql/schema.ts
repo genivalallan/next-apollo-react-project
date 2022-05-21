@@ -7,6 +7,7 @@ const typeDefs = gql`
 
   type Mutation {
     addAsset(newAsset: AssetInput!): Asset!
+    updateShare(assetUpdate: UpdateShareInput!): Asset
   }
 
   scalar Date
@@ -30,6 +31,11 @@ const typeDefs = gql`
     symbol: String!
     name: String!
     region: String!
+  }
+
+  input UpdateShareInput {
+    tickerSymbol: String!
+    shares: Int!
   }
 `;
 
