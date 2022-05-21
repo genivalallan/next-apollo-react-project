@@ -4,6 +4,9 @@ import { getMongoConnection } from "./providers/mongodb/db";
 import typeDefs from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
 import AlphaVantageAPI from "./providers/alphaVantage/alphaVantageRESTAPI";
+import { config } from "dotenv";
+
+config();
 
 const server = new ApolloServer({
   typeDefs,
