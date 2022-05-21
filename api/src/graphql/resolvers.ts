@@ -2,7 +2,13 @@ import { ApolloError } from "apollo-server-core";
 import { GraphQLScalarType, Kind } from "graphql";
 import { ObjectId } from "mongodb";
 import { useCollections } from "../providers/mongodb/db";
-import { AddAssetArgs, Asset, DataSources, SearchArgs } from "./types";
+import {
+  AddAssetArgs,
+  Asset,
+  AssetInput,
+  DataSources,
+  SearchArgs,
+} from "./types";
 
 const dateScalar = new GraphQLScalarType<Date | null, number>({
   name: "Date",
@@ -23,6 +29,18 @@ const dateScalar = new GraphQLScalarType<Date | null, number>({
     return null; // Invalid hard-coded value (not an integer)
   },
 });
+
+const validateAssetInput = (asset: AssetInput): AssetInput | null => {
+  const sanitizedAsset: AssetInput = {
+    symbol: asset.symbol.trim().toUpperCase(),
+    name: asset.name.trim().toUpperCase(),
+    region: asset.region.trim(),
+  };
+
+  if (!sanitizedAsset.name || !sanitizedAsset.symbol || !sanitizedAsset.region)
+    return null;
+  else return sanitizedAsset;
+};
 
 const resolvers = {
   Date: dateScalar,
@@ -45,8 +63,24 @@ const resolvers = {
       ).assetPortfolioPositions;
       let response;
 
+      const sanitizedAsset = validateAssetInput(newAsset);
+
+      if (!sanitizedAsset)
+        throw new ApolloError("The input received is invalid", "BAD_INPUT");
+
+      if (
+        !(
+          sanitizedAsset.region.toUpperCase().includes("BRAZIL") &&
+          sanitizedAsset.region.toUpperCase().includes("UNITED STATES")
+        )
+      ) {
+        throw new ApolloError("Invalid region.", "BAD_INPUT");
+      }
+
       try {
-        response = await collection.findOne({ tickerSymbol: newAsset.symbol });
+        response = await collection.findOne({
+          tickerSymbol: sanitizedAsset.symbol,
+        });
       } catch (error) {
         throw new ApolloError("Error during Asset creation.", "DATABASE_ERROR");
       }
@@ -72,9 +106,9 @@ const resolvers = {
         try {
           response = await collection.insertOne({
             _id: new ObjectId(),
-            tickerSymbol: newAsset.symbol,
-            tickerName: newAsset.name,
-            tickerRegion: newAsset.region,
+            tickerSymbol: sanitizedAsset.symbol,
+            tickerName: sanitizedAsset.name,
+            tickerRegion: sanitizedAsset.region,
             numberOfShares: 1,
             createdAt: new Date(),
             lastUpdatedAt: null,
@@ -88,7 +122,7 @@ const resolvers = {
       }
 
       const savedAsset = await collection.findOne({
-        tickerSymbol: newAsset.symbol,
+        tickerSymbol: sanitizedAsset.symbol,
       });
 
       if (!savedAsset)
