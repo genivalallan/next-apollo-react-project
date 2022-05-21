@@ -29,3 +29,12 @@ export interface Asset {
   createdAt: Date;
   lastUpdatedAt: Date | null;
 }
+
+export interface UpdateShareArgs {
+  assetUpdate: UpdateShareInput;
+}
+
+export interface UpdateShareInput {
+  tickerSymbol: string;
+  shares: number;
+}

@@ -1,6 +1,6 @@
 import { ApolloError } from "apollo-server-core";
 import { GraphQLScalarType, Kind } from "graphql";
-import { ObjectId } from "mongodb";
+import { ObjectId, UpdateResult } from "mongodb";
 import { useCollections } from "../providers/mongodb/db";
 import {
   AddAssetArgs,
@@ -8,6 +8,8 @@ import {
   AssetInput,
   DataSources,
   SearchArgs,
+  UpdateShareArgs,
+  UpdateShareInput,
 } from "./types";
 
 const dateScalar = new GraphQLScalarType<Date | null, number>({
@@ -31,15 +33,34 @@ const dateScalar = new GraphQLScalarType<Date | null, number>({
 });
 
 const validateAssetInput = (asset: AssetInput): AssetInput | null => {
-  const sanitizedAsset: AssetInput = {
+  const sanitizedInput: AssetInput = {
     symbol: asset.symbol.trim().toUpperCase(),
     name: asset.name.trim().toUpperCase(),
     region: asset.region.trim(),
   };
 
-  if (!sanitizedAsset.name || !sanitizedAsset.symbol || !sanitizedAsset.region)
+  if (!(sanitizedInput.name && sanitizedInput.symbol && sanitizedInput.region))
     return null;
-  else return sanitizedAsset;
+  else return sanitizedInput;
+};
+
+const validateUpdateShareInput = (
+  updateShareInput: UpdateShareInput
+): UpdateShareInput | null => {
+  const sanitizedInput: UpdateShareInput = {
+    tickerSymbol: updateShareInput.tickerSymbol.trim().toUpperCase(),
+    shares: updateShareInput.shares,
+  };
+
+  if (
+    !(
+      sanitizedInput.tickerSymbol &&
+      0 < sanitizedInput.shares &&
+      sanitizedInput.shares < 101
+    )
+  )
+    return null;
+  else return sanitizedInput;
 };
 
 const resolvers = {
@@ -132,6 +153,44 @@ const resolvers = {
         );
 
       return savedAsset;
+    },
+
+    updateShare: async (
+      _: any,
+      { assetUpdate }: UpdateShareArgs,
+      { mongoClient }: DataSources
+    ) => {
+      const sanitizedShareInput = validateUpdateShareInput(assetUpdate);
+
+      if (!sanitizedShareInput)
+        throw new ApolloError("The input received is invalid", "BAD_INPUT");
+
+      const collection = useCollections(
+        mongoClient.db()
+      ).assetPortfolioPositions;
+
+      let response: UpdateResult;
+      try {
+        response = await collection.updateOne(
+          { tickerSymbol: sanitizedShareInput.tickerSymbol },
+          {
+            $set: {
+              numberOfShares: sanitizedShareInput.shares,
+              lastUpdatedAt: new Date(),
+            },
+          }
+        );
+      } catch (error) {
+        throw new ApolloError("Error during update operation.");
+      }
+
+      const updatedAsset = await collection.findOne({
+        tickerSymbol: sanitizedShareInput.tickerSymbol,
+      });
+
+      if (!updatedAsset) throw new ApolloError("Error during find Operation.");
+
+      return updatedAsset;
     },
   },
 };
