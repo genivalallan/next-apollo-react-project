@@ -6,6 +6,7 @@
     "dev": "nodemon --quiet -e ts -w src --exec 'ts-node src/index.ts'"
   },
   "dependencies": {
+    "apollo-datasource-rest": "^3.5.3",
     "apollo-server": "^3.7.0",
     "apollo-server-core": "^3.7.0",
     "graphql": "^16.5.0",
