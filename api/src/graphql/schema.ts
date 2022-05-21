@@ -23,6 +23,12 @@ const typeDefs = gql`
     createdAt: Date!
     lastUpdatedAt: Date
   }
+
+  input AssetInput {
+    symbol: String!
+    name: String!
+    region: String!
+  }
 `;
 
 export default typeDefs;
