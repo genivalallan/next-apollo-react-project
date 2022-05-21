@@ -11,3 +11,21 @@ export interface DataSources {
 export interface SearchArgs {
   keyword: string;
 }
+
+export interface AddAssetArgs {
+  newAsset: AssetInput;
+}
+
+export interface AssetInput {
+  symbol: string;
+  name: String;
+  region: string;
+}
+
+export interface Asset {
+  tickerSymbol: String;
+  tickerRegion: String;
+  numberOfShares: number;
+  createdAt: Date;
+  lastUpdatedAt: Date | null;
+}

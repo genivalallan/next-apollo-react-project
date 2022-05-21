@@ -1,5 +1,8 @@
+import { ApolloError } from "apollo-server-core";
 import { GraphQLScalarType, Kind } from "graphql";
-import { DataSources, SearchArgs } from "./types";
+import { ObjectId } from "mongodb";
+import { useCollections } from "../providers/mongodb/db";
+import { AddAssetArgs, Asset, DataSources, SearchArgs } from "./types";
 
 const dateScalar = new GraphQLScalarType<Date | null, number>({
   name: "Date",
@@ -29,6 +32,73 @@ const resolvers = {
       { keyword }: SearchArgs,
       { dataSources: { alphaVantageAPI } }: DataSources
     ) => alphaVantageAPI.search(keyword),
+  },
+
+  Mutation: {
+    addAsset: async (
+      _: any,
+      { newAsset }: AddAssetArgs,
+      { mongoClient }: DataSources
+    ): Promise<Asset> => {
+      const collection = useCollections(
+        mongoClient.db()
+      ).assetPortfolioPositions;
+      let response;
+
+      try {
+        response = await collection.findOne({ tickerSymbol: newAsset.symbol });
+      } catch (error) {
+        throw new ApolloError("Error during Asset creation.", "DATABASE_ERROR");
+      }
+
+      if (response) {
+        try {
+          response = await collection.updateOne(
+            { _id: response._id },
+            {
+              $set: {
+                numberOfShares: response.numberOfShares + 1,
+                lastUpdatedAt: new Date(),
+              },
+            }
+          );
+        } catch (error) {
+          throw new ApolloError(
+            "Error during Asset creation.",
+            "DATABASE_ERROR"
+          );
+        }
+      } else {
+        try {
+          response = await collection.insertOne({
+            _id: new ObjectId(),
+            tickerSymbol: newAsset.symbol,
+            tickerName: newAsset.name,
+            tickerRegion: newAsset.region,
+            numberOfShares: 1,
+            createdAt: new Date(),
+            lastUpdatedAt: null,
+          });
+        } catch (error) {
+          throw new ApolloError(
+            "Error during Asset creation.",
+            "DATABASE_ERROR"
+          );
+        }
+      }
+
+      const savedAsset = await collection.findOne({
+        tickerSymbol: newAsset.symbol,
+      });
+
+      if (!savedAsset)
+        throw new ApolloError(
+          "Could not retrieve data from database.",
+          "DATABASE_ERROR"
+        );
+
+      return savedAsset;
+    },
   },
 };
 
