@@ -38,3 +38,7 @@ export interface UpdateShareInput {
   tickerSymbol: string;
   shares: number;
 }
+
+export interface RemoveAssetArgs {
+  tickerSymbol: string;
+}

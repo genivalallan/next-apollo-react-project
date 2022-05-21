@@ -1,12 +1,14 @@
 import { ApolloError } from "apollo-server-core";
 import { GraphQLScalarType, Kind } from "graphql";
-import { ObjectId, UpdateResult } from "mongodb";
+import { DeleteResult, ObjectId, UpdateResult, WithId } from "mongodb";
+import { AssetPortfolioPosition } from "../providers/mongodb/assetPortfolioPosition";
 import { useCollections } from "../providers/mongodb/db";
 import {
   AddAssetArgs,
   Asset,
   AssetInput,
   DataSources,
+  RemoveAssetArgs,
   SearchArgs,
   UpdateShareArgs,
   UpdateShareInput,
@@ -191,6 +193,48 @@ const resolvers = {
       if (!updatedAsset) throw new ApolloError("Error during find Operation.");
 
       return updatedAsset;
+    },
+
+    removeAsset: async (
+      _: any,
+      { tickerSymbol: symbolInput }: RemoveAssetArgs,
+      { mongoClient }: DataSources
+    ) => {
+      const tickerSymbol = symbolInput.trim().toUpperCase();
+
+      if (!tickerSymbol)
+        throw new ApolloError("The input received is invalid", "BAD_INPUT");
+
+      const collection = useCollections(
+        mongoClient.db()
+      ).assetPortfolioPositions;
+
+      let asset: WithId<AssetPortfolioPosition> | null;
+      try {
+        asset = await collection.findOne({
+          tickerSymbol,
+        });
+      } catch (error) {
+        throw new ApolloError(
+          "Could not search for the document in the database",
+          "DATABASE_ERROR"
+        );
+      }
+
+      if (!asset) return null;
+
+      try {
+        await collection.deleteOne({
+          tickerSymbol,
+        });
+      } catch (error) {
+        throw new ApolloError(
+          "Could not delete the document in the database",
+          "DATABASE_ERROR"
+        );
+      }
+
+      return asset;
     },
   },
 };
