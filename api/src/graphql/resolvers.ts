@@ -1,6 +1,12 @@
+import { DataSources, SearchArgs } from "./types";
+
 const resolvers = {
   Query: {
-    now: () => Date.now(),
+    search: async (
+      _: any,
+      { keywords }: SearchArgs,
+      { dataSources: { alphaVantageAPI } }: DataSources
+    ) => alphaVantageAPI.search(keywords),
   },
 };
 
