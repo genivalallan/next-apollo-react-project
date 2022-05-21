@@ -2,7 +2,13 @@ import { gql } from "apollo-server-core";
 
 const typeDefs = gql`
   type Query {
-    now: Float!
+    search(keyword: String!): [Match!]!
+  }
+
+  type Match {
+    symbol: String!
+    name: String!
+    region: String!
   }
 `;
 
