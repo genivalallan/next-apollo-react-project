@@ -6,6 +6,7 @@ import { useCollections } from "../providers/mongodb/db";
 import {
   AddAssetArgs,
   Asset,
+  AssetArgs,
   AssetInput,
   DataSources,
   RemoveAssetArgs,
@@ -73,6 +74,50 @@ const resolvers = {
       { keyword }: SearchArgs,
       { dataSources: { alphaVantageAPI } }: DataSources
     ) => alphaVantageAPI.search(keyword),
+
+    assets: async (_: any, __: any, { mongoClient }: DataSources) => {
+      let response;
+
+      try {
+        response = await useCollections(mongoClient.db())
+          .assetPortfolioPositions.find()
+          .toArray();
+      } catch (error) {
+        throw new ApolloError(
+          "Could not search for documents in the database",
+          "DATABASE_ERROR"
+        );
+      }
+
+      return response;
+    },
+
+    asset: async (
+      _: any,
+      { tickerSymbol: symbolInput }: AssetArgs,
+      { mongoClient }: DataSources
+    ) => {
+      let response: WithId<AssetPortfolioPosition> | null;
+      const tickerSymbol = symbolInput.trim().toUpperCase();
+
+      if (!tickerSymbol)
+        throw new ApolloError("The input received is invalid", "BAD_INPUT");
+
+      try {
+        response = await useCollections(
+          mongoClient.db()
+        ).assetPortfolioPositions.findOne({
+          tickerSymbol: tickerSymbol,
+        });
+      } catch (error) {
+        throw new ApolloError(
+          "Cannot search for the document in the database",
+          "DATABASE_ERROR"
+        );
+      }
+
+      return response;
+    },
   },
 
   Mutation: {
@@ -93,11 +138,11 @@ const resolvers = {
 
       if (
         !(
-          sanitizedAsset.region.toUpperCase().includes("BRAZIL") &&
-          sanitizedAsset.region.toUpperCase().includes("UNITED STATES")
+          sanitizedAsset.region.includes("Brazil") ||
+          sanitizedAsset.region.includes("United States")
         )
       ) {
-        throw new ApolloError("Invalid region.", "BAD_INPUT");
+        throw new ApolloError("Invalid region. " + sanitizedAsset.region, "BAD_INPUT");
       }
 
       try {

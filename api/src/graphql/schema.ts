@@ -3,6 +3,8 @@ import { gql } from "apollo-server-core";
 const typeDefs = gql`
   type Query {
     search(keyword: String!): [Match!]!
+    assets: [Asset!]!
+    asset(tickerSymbol: String!): Asset
   }
 
   type Mutation {
