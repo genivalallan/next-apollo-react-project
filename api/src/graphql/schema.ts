@@ -8,6 +8,7 @@ const typeDefs = gql`
   type Mutation {
     addAsset(newAsset: AssetInput!): Asset!
     updateShare(assetUpdate: UpdateShareInput!): Asset
+    removeAsset(tickerSymbol: String!): Asset
   }
 
   scalar Date
