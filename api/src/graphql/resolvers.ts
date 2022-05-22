@@ -38,8 +38,8 @@ const dateScalar = new GraphQLScalarType<Date | null, number>({
 
 const validateAssetInput = (asset: AssetInput): AssetInput | null => {
   const sanitizedInput: AssetInput = {
-    symbol: asset.symbol.trim().toUpperCase(),
-    name: asset.name.trim().toUpperCase(),
+    symbol: asset.symbol.trim(),
+    name: asset.name.trim(),
     region: asset.region.trim(),
   };
 
@@ -52,7 +52,7 @@ const validateUpdateShareInput = (
   updateShareInput: UpdateShareInput
 ): UpdateShareInput | null => {
   const sanitizedInput: UpdateShareInput = {
-    tickerSymbol: updateShareInput.tickerSymbol.trim().toUpperCase(),
+    tickerSymbol: updateShareInput.tickerSymbol.trim(),
     shares: updateShareInput.shares,
   };
 
@@ -99,7 +99,7 @@ const resolvers = {
       { mongoClient }: DataSources
     ) => {
       let response: WithId<AssetPortfolioPosition> | null;
-      const tickerSymbol = symbolInput.trim().toUpperCase();
+      const tickerSymbol = symbolInput.trim();
 
       if (!tickerSymbol)
         throw new ApolloError("The input received is invalid", "BAD_INPUT");
@@ -252,8 +252,6 @@ const resolvers = {
         );
       });
 
-      await collection.insertMany(assets);
-
       return "OK";
     },
 
@@ -298,7 +296,7 @@ const resolvers = {
       { tickerSymbol: symbolInput }: RemoveAssetArgs,
       { mongoClient }: DataSources
     ) => {
-      const tickerSymbol = symbolInput.trim().toUpperCase();
+      const tickerSymbol = symbolInput.trim();
 
       if (!tickerSymbol)
         throw new ApolloError("The input received is invalid", "BAD_INPUT");
