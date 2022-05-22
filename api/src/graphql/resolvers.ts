@@ -125,7 +125,7 @@ const resolvers = {
       _: any,
       { newAsset }: AddAssetArgs,
       { mongoClient }: DataSources
-    ): Promise<Asset> => {
+    ) => {
       const collection = useCollections(
         mongoClient.db()
       ).assetPortfolioPositions;
