@@ -156,7 +156,7 @@ const resolvers = {
       if (response) {
         try {
           response = await collection.updateOne(
-            { _id: response._id },
+            { tickerSymbol: response.tickerSymbol },
             {
               $set: {
                 numberOfShares: response.numberOfShares + 1,
