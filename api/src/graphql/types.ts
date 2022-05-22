@@ -18,13 +18,13 @@ export interface AddAssetArgs {
 
 export interface AssetInput {
   symbol: string;
-  name: String;
+  name: string;
   region: string;
 }
 
 export interface Asset {
-  tickerSymbol: String;
-  tickerRegion: String;
+  tickerSymbol: string;
+  tickerRegion: string;
   numberOfShares: number;
   createdAt: Date;
   lastUpdatedAt: Date | null;
