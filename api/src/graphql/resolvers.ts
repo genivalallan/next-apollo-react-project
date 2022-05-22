@@ -212,18 +212,44 @@ const resolvers = {
         mongoClient.db()
       ).assetPortfolioPositions;
 
-      const assets = matches.map((match) => {
-        const sanitizedMatch = validateAssetInput(match);
+      const assets = matches
+        .map((match) => {
+          const sanitizedMatch = validateAssetInput(match);
 
-        return {
-          _id: new ObjectId(),
-          tickerSymbol: sanitizedMatch!.symbol,
-          tickerName: sanitizedMatch!.name,
-          tickerRegion: sanitizedMatch!.region,
-          numberOfShares: 1,
-          createdAt: new Date(),
-          lastUpdatedAt: null,
-        };
+          return sanitizedMatch?.region.includes("Brazil") ||
+            sanitizedMatch?.region.includes("United States")
+            ? {
+                _id: new ObjectId(),
+                tickerSymbol: sanitizedMatch!.symbol,
+                tickerName: sanitizedMatch!.name,
+                tickerRegion: sanitizedMatch!.region,
+                numberOfShares: 1,
+                createdAt: new Date(),
+                lastUpdatedAt: null,
+              }
+            : null;
+        })
+        .filter((asset) => !!asset);
+
+      assets.forEach((asset) => {
+        collection.findOneAndUpdate(
+          {
+            tickerSymbol: asset!.tickerSymbol,
+            tickerName: asset!.tickerName,
+            tickerRegion: asset!.tickerRegion,
+          },
+          {
+            $set: {
+              numberOfShares: asset!.numberOfShares,
+              lastUpdatedAt: new Date(),
+            },
+            $setOnInsert: {
+              createdAt: new Date(),
+              lastUpdateAt: null,
+            },
+          },
+          { upsert: true }
+        );
       });
 
       await collection.insertMany(assets);
@@ -263,8 +289,6 @@ const resolvers = {
       const updatedAsset = await collection.findOne({
         tickerSymbol: sanitizedShareInput.tickerSymbol,
       });
-
-      if (!updatedAsset) throw new ApolloError("Error during find Operation.");
 
       return updatedAsset;
     },
