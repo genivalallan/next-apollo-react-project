@@ -58,8 +58,8 @@ const validateUpdateShareInput = (
   if (
     !(
       sanitizedInput.tickerSymbol &&
-      0 < sanitizedInput.shares &&
-      sanitizedInput.shares < 101
+      0 <= sanitizedInput.shares &&
+      sanitizedInput.shares <= 100
     )
   )
     return null;
