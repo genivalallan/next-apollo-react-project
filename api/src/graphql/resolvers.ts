@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-core";
+import { match } from "assert";
 import { GraphQLScalarType, Kind } from "graphql";
 import { ObjectId, UpdateResult, WithId } from "mongodb";
 import { AssetPortfolioPosition } from "../providers/mongodb/assetPortfolioPosition";
@@ -200,6 +201,34 @@ const resolvers = {
         );
 
       return savedAsset;
+    },
+
+    addAssets: async (
+      _: any,
+      { matches }: { matches: AssetInput[] },
+      { mongoClient }: DataSources
+    ) => {
+      const collection = useCollections(
+        mongoClient.db()
+      ).assetPortfolioPositions;
+
+      const assets = matches.map((match) => {
+        const sanitizedMatch = validateAssetInput(match);
+
+        return {
+          _id: new ObjectId(),
+          tickerSymbol: sanitizedMatch!.symbol,
+          tickerName: sanitizedMatch!.name,
+          tickerRegion: sanitizedMatch!.region,
+          numberOfShares: 1,
+          createdAt: new Date(),
+          lastUpdatedAt: null,
+        };
+      });
+
+      await collection.insertMany(assets);
+
+      return "OK";
     },
 
     updateShare: async (

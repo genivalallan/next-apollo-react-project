@@ -9,6 +9,7 @@ const typeDefs = gql`
 
   type Mutation {
     addAsset(newAsset: AssetInput!): Asset!
+    addAssets(matches: [AssetInput!]!): String!
     updateShare(assetUpdate: UpdateShareInput!): Asset
     removeAsset(tickerSymbol: String!): Asset
   }
