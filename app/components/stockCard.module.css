@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Varela+Round&display=swap');
+
+.card {
+  position: relative;
+  border: 2px solid;
+  border-radius: 15px;
+  width: 350px;
+  height: 150px;
+  margin: auto;
+}
+
+.cardTitle {
+  width: 90%;
+  margin: 5% 5%;
+  white-space: nowrap;
+}
+
+.cardTitle span {
+  display: block;
+}
+
+.stockName {
+  width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: "";
+  font-family: "Varela Round", sans-serif;
+  font-weight: bolder;
+  text-shadow: 0 0 1px rgba(125, 0, 210, 0.7);
+  font-size: 1.5em;
+}
+
+.stockRegion {
+  font-family: "Varela Round", sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.cardTitle span + span {
+  margin-top: 15px;
+}
