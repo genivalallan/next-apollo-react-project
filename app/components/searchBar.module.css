@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.formContainer {
+  text-align: center;
+  margin: 25px auto;
+}
+
+.formInput {
+  border-style: none;
+  margin: 0 auto;
+  border-radius: 20px;
+  padding: 10px 20px;
+  width: 700px;
+  box-shadow: 3px 3px 10px 3px lightgrey;
+
+  font-size: 1.5em;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  color: darkgrey;
+  letter-spacing: 1px;
+}
