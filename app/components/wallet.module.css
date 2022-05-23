@@ -1,0 +1,8 @@
+.wallet {
+  display: grid;
+  grid-template-columns: repeat(2, 350px);
+  column-gap: 3rem;
+  row-gap: 3rem;
+  margin: 2rem auto;
+  justify-content: center;
+}
