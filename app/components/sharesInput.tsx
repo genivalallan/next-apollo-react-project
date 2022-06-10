@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { UPDATE_ASSET } from "../graphql/queries";
-import styles from "./sharesInput.module.css";
 
 const DEFAULT_CURSOR = "default";
 const TEXT_CURSOR = "text";
@@ -95,10 +94,13 @@ const SharesInput: React.FC<SharesInputProps> = ({
   };
 
   return (
-    <form className={styles.sharesInputForm} onSubmit={handleOnSubmit}>
+    <form
+      className="absolute top-6 right-5 w-20 h-12"
+      onSubmit={handleOnSubmit}
+    >
       <input
         id="shares-input"
-        className={styles.sharesInput}
+        className="bg-gray-200 w-full h-full rounded-xl text-2xl text-center text-slate-500 font-source-code-pro font-bold"
         style={{ cursor: inputCursor }}
         type="text"
         value={sharesInput}
