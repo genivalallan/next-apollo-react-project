@@ -26,10 +26,10 @@ const StockCard: React.FC<StockCardProps> = ({
     <div className={`relative border-2 rounded-xl w-80 h-40 ${cardTheme}`}>
       {/* Stock name and region */}
       <div className="absolute top-3 left-4 space-y-3">
-        <span className="block w-48 whitespace-nowrap overflow-hidden text-2xl font-dosis font-bold drop-shadow-md">
+        <span className="block w-48 whitespace-nowrap overflow-hidden text-2xl font-bold drop-shadow-md">
           {tickerName}
         </span>
-        <span className="block font-dosis font-bold">{tickerRegion}</span>
+        <span className="block font-bold">{tickerRegion}</span>
       </div>
       <SharesInput
         numberOfShares={numberOfShares}

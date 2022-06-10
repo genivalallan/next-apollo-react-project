@@ -32,7 +32,7 @@ const RemoveAssetButton: React.FC<RemoveAssetButtonProps> = ({
 
   return (
     <div
-      className="absolute bottom-1 left-2 p-2 text-xl rounded-xl text-red-700 font-dosis font-bold drop-shadow-md cursor-pointer"
+      className="absolute bottom-1 left-2 p-2 text-xl rounded-xl text-red-700 font-bold drop-shadow-md cursor-pointer"
       onClick={handleRemoveBtnClick}
     >
       REMOVER
