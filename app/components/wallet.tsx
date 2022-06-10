@@ -11,19 +11,21 @@ interface WalletProps {
 const Wallet: React.FC<WalletProps> = ({ wallet, callbackSetState }) => {
   return (
     // Wallet grid container
-    <div className={styles.wallet}>
-      {wallet.length > 0 &&
-        wallet.map((asset) => (
-          <StockCard
-            key={asset.tickerSymbol}
-            tickerName={asset.tickerName}
-            tickerSymbol={asset.tickerSymbol}
-            tickerRegion={asset.tickerRegion}
-            numberOfShares={asset.numberOfShares}
-            wallet={wallet}
-            callbackSetState={callbackSetState}
-          />
-        ))}
+    <div className="flex justify-content-center justify-center">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        {wallet.length > 0 &&
+          wallet.map((asset) => (
+            <StockCard
+              key={asset.tickerSymbol}
+              tickerName={asset.tickerName}
+              tickerSymbol={asset.tickerSymbol}
+              tickerRegion={asset.tickerRegion}
+              numberOfShares={asset.numberOfShares}
+              wallet={wallet}
+              callbackSetState={callbackSetState}
+            />
+          ))}
+      </div>
     </div>
   );
 };
