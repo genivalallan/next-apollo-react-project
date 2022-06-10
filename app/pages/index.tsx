@@ -7,7 +7,6 @@ import SearchBar from "../components/searchBar";
 import Wallet from "../components/wallet";
 import { ADD_ASSETS, GET_ASSETS } from "../graphql/queries";
 import { Asset, Match } from "../graphql/types";
-import styles from "./index.module.css";
 
 const MinhaCarteira: NextPage = () => {
   const [searchQuery, { data: assetsQueryResult }] = useLazyQuery<{
@@ -47,7 +46,7 @@ const MinhaCarteira: NextPage = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Minha Carteira</title>
