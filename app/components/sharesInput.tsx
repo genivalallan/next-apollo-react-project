@@ -2,9 +2,6 @@ import { useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { UPDATE_ASSET } from "../graphql/queries";
 
-const DEFAULT_CURSOR = "default";
-const TEXT_CURSOR = "text";
-
 interface SharesInputProps {
   numberOfShares: number;
   tickerSymbol: string;
@@ -16,7 +13,6 @@ const SharesInput: React.FC<SharesInputProps> = ({
 }) => {
   const [sharesInput, setSharesInput] = useState(numberOfShares.toString());
   const [lastValidInput, setLastValidInput] = useState(numberOfShares);
-  const [inputCursor, setInputCursor] = useState(DEFAULT_CURSOR);
   const [updateSharesMutation, _] = useMutation(UPDATE_ASSET, {
     fetchPolicy: "network-only",
   });
@@ -46,13 +42,7 @@ const SharesInput: React.FC<SharesInputProps> = ({
     }
   };
 
-  const handleOnFocus = () => {
-    setInputCursor(TEXT_CURSOR);
-  };
-
   const handleOnBlur = () => {
-    setInputCursor(DEFAULT_CURSOR);
-
     const value = validate(sharesInput);
 
     if (value === "") {
@@ -68,7 +58,6 @@ const SharesInput: React.FC<SharesInputProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setInputCursor(DEFAULT_CURSOR);
     const input = document.getElementById(
       "shares-input"
     ) as HTMLInputElement & { value: string };
@@ -100,11 +89,9 @@ const SharesInput: React.FC<SharesInputProps> = ({
     >
       <input
         id="shares-input"
-        className="bg-gray-200 w-full h-full rounded-xl text-2xl text-center text-slate-500 font-source-code-pro font-bold"
-        style={{ cursor: inputCursor }}
+        className="bg-gray-200 w-full h-full rounded-xl text-2xl text-center text-slate-500 font-source-code-pro font-bold hover:cursor-default focus:cursor-text"
         type="text"
         value={sharesInput}
-        onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
       />
