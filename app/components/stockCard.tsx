@@ -7,19 +7,13 @@ const BRAZILIAN_CARD_THEME = "border-green-500 text-green-500";
 const USA_CARD_THEME = "border-sky-500 text-sky-500";
 
 interface StockCardProps {
-  tickerName: string;
-  tickerSymbol: string;
-  tickerRegion: string;
-  numberOfShares: number;
+  asset: Asset;
   wallet: Asset[];
   callbackSetState: Dispatch<SetStateAction<Asset[]>>;
 }
 
 const StockCard: React.FC<StockCardProps> = ({
-  tickerName,
-  tickerSymbol,
-  tickerRegion,
-  numberOfShares,
+  asset: { tickerName, tickerSymbol, tickerRegion, numberOfShares },
   wallet,
   callbackSetState,
 }) => {

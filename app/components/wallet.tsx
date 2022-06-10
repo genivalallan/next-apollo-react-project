@@ -17,10 +17,7 @@ const Wallet: React.FC<WalletProps> = ({ wallet, callbackSetState }) => {
           wallet.map((asset) => (
             <StockCard
               key={asset.tickerSymbol}
-              tickerName={asset.tickerName}
-              tickerSymbol={asset.tickerSymbol}
-              tickerRegion={asset.tickerRegion}
-              numberOfShares={asset.numberOfShares}
+              asset={asset}
               wallet={wallet}
               callbackSetState={callbackSetState}
             />
