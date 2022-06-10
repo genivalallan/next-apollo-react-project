@@ -1,11 +1,15 @@
-import styles from "./header.module.css";
-
 interface HeaderProps {
   title: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
-  return <h1 className={styles.header}>{title}</h1>;
+  return (
+    <div className="w-full my-5 mx-auto py-3">
+      <h1 className="text-5xl text-center text-sky-600 font-dosis font-bold drop-shadow-md">
+        {title}
+      </h1>
+    </div>
+  );
 };
 
 export default Header;
