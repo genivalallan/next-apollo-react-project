@@ -2,6 +2,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import withApollo, { WithApolloProps } from "next-with-apollo";
 import type { AppProps } from "next/app";
+import "./styles/globals.css";
 
 function App({ Component, pageProps, apollo }: AppProps & WithApolloProps<typeof InMemoryCache>) {
   return (
