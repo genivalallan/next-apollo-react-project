@@ -2,12 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../graphql/types";
 import RemoveAssetButton from "./removeAssetButton";
 import SharesInput from "./sharesInput";
-import styles from "./stockCard.module.css";
 
-const BRAZILIAN_ASSET = "Brazil";
-const NORTH_AMERICAN_ASSET = "United States";
-const BR_THEME_COLOR = "#55B585";
-const USA_THEME_COLOR = "#4E45E5";
+const BRAZILIAN_CARD_THEME = "border-green-500 text-green-500";
+const USA_CARD_THEME = "border-sky-500 text-sky-500";
 
 interface StockCardProps {
   tickerName: string;
@@ -26,23 +23,19 @@ const StockCard: React.FC<StockCardProps> = ({
   wallet,
   callbackSetState,
 }) => {
+  const cardTheme = tickerRegion.includes("Brazil")
+    ? BRAZILIAN_CARD_THEME
+    : USA_CARD_THEME;
+
   return (
     // Card
-    <div
-      style={{
-        borderColor: tickerRegion.includes(BRAZILIAN_ASSET)
-          ? BR_THEME_COLOR
-          : USA_THEME_COLOR,
-        color: tickerRegion.includes(BRAZILIAN_ASSET)
-          ? BR_THEME_COLOR
-          : USA_THEME_COLOR,
-      }}
-      className={styles.card}
-    >
+    <div className={`relative border-2 rounded-xl w-80 h-40 ${cardTheme}`}>
       {/* Stock name and region */}
-      <div className={styles.cardTitle}>
-        <span className={styles.stockName}>{tickerName}</span>
-        <span className={styles.stockRegion}>{tickerRegion}</span>
+      <div className="absolute top-3 left-4 space-y-3">
+        <span className="block w-56 whitespace-nowrap overflow-hidden text-2xl font-dosis font-bold drop-shadow-md">
+          {tickerName}
+        </span>
+        <span className="block font-dosis font-bold">{tickerRegion}</span>
       </div>
       <SharesInput
         numberOfShares={numberOfShares}
