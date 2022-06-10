@@ -3,7 +3,6 @@ import { FormEventHandler, useEffect, useState } from "react";
 import { ASSET_SEARCH } from "../graphql/queries";
 import { Match } from "../graphql/types";
 import Loading from "./loading";
-import styles from "./searchBar.module.css";
 
 interface SearchBarProps {
   callbackCreateAssets: (matchs: Match[]) => void;
@@ -33,14 +32,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackCreateAssets }) => {
   };
 
   return (
-    <div className={styles.formContainer}>
+    <div className="w-1/2 my-3 mx-auto">
       <form onSubmit={handleOnSubmit}>
         <input
-          className={styles.formInput}
+          className="w-full px-4 py-2 shadow-lg border rounded-xl text-u text-gray-500 font-source-code-pro font-bold"
           type="text"
           value={keyword}
           placeholder='Pesquise por "AAPL" ou "WEGE3"'
-          onChange={(e) => setkeyword(e.target.value)}
+          onChange={(e) => {
+            setkeyword(e.target.value.toUpperCase());
+          }}
         />
       </form>
       {loading && <Loading />}
