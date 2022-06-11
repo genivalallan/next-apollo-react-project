@@ -1,6 +1,23 @@
 version: "3"
 
 services:
+  application:
+    image: node:16.15.0
+    working_dir: /home
+    command: npm start
+    environment:
+      - DB_HOST=mongodb
+      - DB_PORT=27017
+    ports:
+      - 4000:4000
+      - 3000:3000
+    volumes:
+      - .:/home
+      - ./api:/home/api
+      - ./app:/home/app
+    depends_on:
+      - mongodb
+
   mongodb:
     image: mongo:5.0.8
     ports:
