@@ -27,6 +27,7 @@ const ToggleDarkMode: React.FC = () => {
           type="checkbox"
           className="hidden w-0 h-0 peer"
           checked={themeCtx.darkMode}
+          onChange={() => {}}
         />
         <span
           className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-neutral-300 rounded-full before:absolute before:content-[''] before:w-5 before:h-5 before:bottom-1 before:left-1 before:bg-white before:ease-in before:duration-200 peer-checked:bg-neutral-600 peer-focus:shadow-md peer-checked:before:translate-x-7 before:rounded-full"
