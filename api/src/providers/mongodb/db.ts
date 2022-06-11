@@ -2,7 +2,9 @@ import { Db, MongoClient } from "mongodb";
 import type { AssetPortfolioPosition } from "./assetPortfolioPosition";
 
 export async function getMongoConnection() {
-  const client = new MongoClient("mongodb://localhost:27017");
+  const dbHost = process.env.DB_HOST ?? "localhost";
+  const dbPort = process.env.DB_PORT ?? "27017";
+  const client = new MongoClient(`mongodb://${dbHost}:${dbPort}`);
   return client.connect();
 }
 
