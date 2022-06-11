@@ -60,7 +60,7 @@ export const themes: Themes = {
       textShadow: "drop-shadow-[0_2px_4px_rgba(22,163,74,0.25)]",
     },
     usaTheme: {
-      card: "border-green-600 text-sky-600",
+      card: "border-sky-600 text-sky-600",
       inputOutline: "focus:outline-sky-600",
       textShadow: "drop-shadow-[0_2px_4px_rgba(2,132,199,0.25)]",
     },
