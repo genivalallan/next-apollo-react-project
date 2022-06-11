@@ -19,8 +19,8 @@ function App({
 }: AppProps & WithApolloProps<typeof InMemoryCache>) {
   const [isDark, setDarkMode] = useState(false);
 
-  const toggleTheme = () => {
-    setDarkMode(!isDark);
+  const toggleTheme = (dark?: boolean) => {
+    setDarkMode(dark === undefined ? !isDark : dark);
   }
 
   return (

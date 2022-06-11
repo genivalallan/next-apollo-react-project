@@ -22,7 +22,7 @@ export interface Themes {
 export interface Theme {
   darkMode: boolean;
   theme: ThemeProps;
-  toggleTheme: () => void;
+  toggleTheme: (dark?: boolean) => void;
 }
 
 export const themes: Themes = {
