@@ -2,7 +2,8 @@
   "scripts": {
     "start": "concurrently -n api,app -c green,blue \"npm run api\" \"npm run app\"",
     "api": "cd api && npm run dev",
-    "app": "cd app && npm run dev"
+    "app": "cd app && npm run dev",
+    "deps": "npm install && cd api && npm install && cd ../app && npm install"
   },
   "devDependencies": {
     "concurrently": "^7.2.0",
