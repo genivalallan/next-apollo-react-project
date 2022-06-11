@@ -2,12 +2,38 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import withApollo, { WithApolloProps } from "next-with-apollo";
 import type { AppProps } from "next/app";
-import "./styles/globals.css";
+import React, { useState } from "react";
+import { Theme, themes } from "../styles/themes";
+import "../styles/globals.css";
 
-function App({ Component, pageProps, apollo }: AppProps & WithApolloProps<typeof InMemoryCache>) {
+export const ThemeContext = React.createContext<Theme>({
+  darkMode: false,
+  theme: themes.light,
+  toggleTheme: () => {},
+});
+
+function App({
+  Component,
+  pageProps,
+  apollo,
+}: AppProps & WithApolloProps<typeof InMemoryCache>) {
+  const [isDark, setDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setDarkMode(!isDark);
+  }
+
   return (
     <ApolloProvider client={apollo}>
-      <Component {...pageProps} />
+      <ThemeContext.Provider
+        value={{
+          darkMode: isDark,
+          theme: isDark ? themes.dark : themes.light,
+          toggleTheme,
+        }}
+      >
+        <Component {...pageProps} />
+      </ThemeContext.Provider>
     </ApolloProvider>
   );
 }
@@ -16,7 +42,7 @@ export default withApollo(
   ({ initialState }) => {
     return new ApolloClient({
       uri: "http://localhost:4000",
-      cache: new InMemoryCache().restore(initialState || {})
+      cache: new InMemoryCache().restore(initialState || {}),
     });
   },
   { getDataFromTree: getDataFromTree }
