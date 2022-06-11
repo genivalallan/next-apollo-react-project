@@ -1,21 +1,28 @@
 import { useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UPDATE_ASSET } from "../graphql/queries";
+import { ThemeContext } from "../pages/_app";
 
 interface SharesInputProps {
   numberOfShares: number;
   tickerSymbol: string;
+  tickerRegion: string;
 }
 
 const SharesInput: React.FC<SharesInputProps> = ({
   numberOfShares,
   tickerSymbol,
+  tickerRegion,
 }) => {
   const [sharesInput, setSharesInput] = useState(numberOfShares.toString());
   const [lastValidInput, setLastValidInput] = useState(numberOfShares);
   const [updateSharesMutation, _] = useMutation(UPDATE_ASSET, {
     fetchPolicy: "network-only",
   });
+  const { theme } = useContext(ThemeContext);
+  const inputOutline = tickerRegion.includes("Brazil")
+    ? theme.brazilianTheme.inputOutline
+    : theme.usaTheme.inputOutline;
 
   useEffect(() => {
     executeUpdate();
@@ -89,7 +96,7 @@ const SharesInput: React.FC<SharesInputProps> = ({
     >
       <input
         id="shares-input"
-        className="bg-gray-200 w-full h-full rounded-xl text-2xl text-center text-slate-500 font-source-code-pro font-bold hover:cursor-default focus:cursor-text"
+        className={`w-full h-full rounded-xl text-2xl text-center font-source-code-pro font-bold hover:cursor-default focus:cursor-text outline-none focus:outline-offset-0 easy-in duration-200 ${theme.sharesInput} ${inputOutline}`}
         type="text"
         value={sharesInput}
         onBlur={handleOnBlur}

@@ -1,10 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Asset } from "../graphql/types";
+import { ThemeContext } from "../pages/_app";
 import RemoveAssetButton from "./removeAssetButton";
 import SharesInput from "./sharesInput";
-
-const BRAZILIAN_CARD_THEME = "border-green-500 text-green-500";
-const USA_CARD_THEME = "border-sky-500 text-sky-500";
 
 interface StockCardProps {
   asset: Asset;
@@ -17,16 +15,20 @@ const StockCard: React.FC<StockCardProps> = ({
   wallet,
   callbackSetState,
 }) => {
+  const { theme } = useContext(ThemeContext);
+
   const cardTheme = tickerRegion.includes("Brazil")
-    ? BRAZILIAN_CARD_THEME
-    : USA_CARD_THEME;
+    ? theme.brazilianTheme
+    : theme.usaTheme;
 
   return (
     // Card
-    <div className={`relative border-2 rounded-xl w-80 h-40 ${cardTheme}`}>
+    <div className={`relative border-2 rounded-xl w-80 h-40 ${cardTheme.card}`}>
       {/* Stock name and region */}
       <div className="absolute top-3 left-4 space-y-3">
-        <span className="block w-48 whitespace-nowrap overflow-hidden text-2xl font-bold drop-shadow-md">
+        <span
+          className={`block w-48 whitespace-nowrap overflow-hidden text-2xl font-bold drop-shadow-md ${cardTheme.textShadow}`}
+        >
           {tickerName}
         </span>
         <span className="block font-bold">{tickerRegion}</span>
@@ -34,6 +36,7 @@ const StockCard: React.FC<StockCardProps> = ({
       <SharesInput
         numberOfShares={numberOfShares}
         tickerSymbol={tickerSymbol}
+        tickerRegion={tickerRegion}
       />
       <RemoveAssetButton
         callbackSetState={callbackSetState}

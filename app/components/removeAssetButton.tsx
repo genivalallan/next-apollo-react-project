@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { REMOVE_ASSET } from "../graphql/queries";
 import { Asset } from "../graphql/types";
+import { ThemeContext } from "../pages/_app";
 
 interface RemoveAssetButtonProps {
   tickerSymbol: string;
@@ -15,6 +16,7 @@ const RemoveAssetButton: React.FC<RemoveAssetButtonProps> = ({
   callbackSetState,
 }) => {
   const [removeAssetMutation, _] = useMutation(REMOVE_ASSET);
+  const { theme } = useContext(ThemeContext);
 
   const handleRemoveBtnClick = () => {
     removeAssetMutation({ variables: { tickerSymbol: tickerSymbol } });
@@ -32,7 +34,7 @@ const RemoveAssetButton: React.FC<RemoveAssetButtonProps> = ({
 
   return (
     <div
-      className="absolute bottom-1 left-2 p-2 text-xl rounded-xl text-red-700 font-bold drop-shadow-md cursor-pointer"
+      className={`absolute bottom-1 left-2 p-2 text-xl rounded-xl font-bold cursor-pointer ${theme.removeAssetBtn}`}
       onClick={handleRemoveBtnClick}
     >
       REMOVER

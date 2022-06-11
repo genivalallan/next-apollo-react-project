@@ -1,4 +1,3 @@
-import styles from "./wallet.module.css";
 import StockCard from "./stockCard";
 import { Asset } from "../graphql/types";
 import { Dispatch, SetStateAction } from "react";

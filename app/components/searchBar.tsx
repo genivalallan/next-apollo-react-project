@@ -1,7 +1,8 @@
 import { useLazyQuery } from "@apollo/client";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useContext, useEffect, useState } from "react";
 import { ASSET_SEARCH } from "../graphql/queries";
 import { Match } from "../graphql/types";
+import { ThemeContext } from "../pages/_app";
 import Loading from "./loading";
 
 interface SearchBarProps {
@@ -13,6 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackCreateAssets }) => {
     search: Match[];
   }>(ASSET_SEARCH, { fetchPolicy: "network-only" });
   const [keyword, setkeyword] = useState("");
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (data && data.search.length > 0) {
@@ -32,10 +34,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackCreateAssets }) => {
   };
 
   return (
-    <div className="w-1/2 my-3 mx-auto">
+    <div className="w-1/4 my-3 mx-auto">
       <form onSubmit={handleOnSubmit}>
         <input
-          className="w-full px-4 py-2 shadow-lg border rounded-xl text-u text-gray-500 font-source-code-pro font-bold"
+          className={`w-full px-4 py-2 border rounded-xl font-source-code-pro font-bold outline-none focus:outline-offset-0 easy-in duration-200 ${theme.searchBar}`}
           type="text"
           value={keyword}
           placeholder='Pesquise por "AAPL" ou "WEGE3"'
